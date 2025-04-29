@@ -1,0 +1,18 @@
+import requests
+import sys
+
+def verificar_autorizacion():
+    url = "https://raw.githubusercontent.com/tu_usuario/control-remoto/main/estado.txt"
+    try:
+        r = requests.get(url, timeout=5)
+        if "OFF" in r.text.strip().upper():
+            print("Este programa ha sido desactivado por el administrador.")
+            sys.exit()
+    except:
+        print("No se pudo verificar el estado del programa.")
+        sys.exit()
+
+verificar_autorizacion()
+
+# Aquí sigue tu programa
+print("Programa autorizado. Ejecutando...")
