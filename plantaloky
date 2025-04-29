@@ -1,0 +1,15 @@
+import requests
+import sys
+
+def verificar_autorizacion():
+    url = "https://raw.githubusercontent.com/tu_usuario/control-remoto/main/estado.txt"  # ← CAMBIA AQUÍ
+    try:
+        r = requests.get(url, timeout=5)
+        if "OFF" in r.text.strip().upper():
+            ctypes.windll.user32.MessageBoxW(0, "Este programa ha sido desactivado por el administrador.", "Programa Bloqueado", 0x10)
+            sys.exit()
+    except:
+        ctypes.windll.user32.MessageBoxW(0, "No se pudo verificar el estado del programa.", "Error de Red", 0x10)
+        sys.exit()
+
+verificar_autorizacion()
