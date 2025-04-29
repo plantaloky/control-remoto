@@ -19,7 +19,7 @@ def verificar_autorizacion():
             sys.exit()
     except requests.exceptions.RequestException as e:
         # Manejo de errores de conexión
-        print(f"actualización en curso del programa. Error: {e}")
+        print(f"No se pudo verificar el estado del programa. Error: {e}")
         sys.exit()
 
 # Llamar a la función de verificación
