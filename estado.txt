@@ -2,16 +2,27 @@ import requests
 import sys
 
 def verificar_autorizacion():
-    url = "https://raw.githubusercontent.com/tu_usuario/control-remoto/main/estado.txt"
+    # URL actualizada con el archivo estado.txt
+    url = "https://raw.githubusercontent.com/plantaloky/control-remoto/main/estado.txt"
     try:
+        # Solicitar el contenido del archivo
         r = requests.get(url, timeout=5)
-        if "OFF" in r.text.strip().upper():
+        estado = r.text.strip().upper()  # Normalizar el contenido a mayúsculas
+        print(f"Contenido de estado.txt: '{estado}'")  # Depuración: muestra el contenido leído
+
+        # Verificar si el estado es OFF
+        if "OFF" in estado:
             print("Este programa ha sido desactivado por el administrador.")
             sys.exit()
-    except:
-        print("No se pudo verificar el estado del programa.")
+        elif estado != "ON":
+            print("El archivo estado.txt contiene un valor inválido.")
+            sys.exit()
+    except requests.exceptions.RequestException as e:
+        # Manejo de errores de conexión
+        print(f"No se pudo verificar el estado del programa. Error: {e}")
         sys.exit()
 
+# Llamar a la función de verificación
 verificar_autorizacion()
 
 # Aquí sigue tu programa
