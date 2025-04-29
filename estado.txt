@@ -10,7 +10,7 @@ def verificar_autorizacion():
         estado = r.text.strip().upper()  # Normalizar el contenido a mayúsculas
         print(f"Contenido de estado.txt: '{estado}'")  # Depuración: muestra el contenido leído
 
-        # Verificar si el estado es OFF
+        # Verificar si el estado es ON
         if "OFF" in estado:
             print("Este programa ha sido desactivado por el administrador.")
             sys.exit()
