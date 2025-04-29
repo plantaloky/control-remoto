@@ -14,7 +14,7 @@ def verificar_autorizacion():
         if "OFF" in estado:
             print("Este programa ha sido desactivado por el administrador.")
             sys.exit()
-        elif estado != "ON":
+        elif estado != "OF":
             print("El archivo estado.txt contiene un valor inválido.")
             sys.exit()
     except requests.exceptions.RequestException as e:
