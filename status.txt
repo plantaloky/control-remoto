@@ -28,15 +28,15 @@ def obtener_estado_remoto():
         response = requests.get(CONTROL_URL, timeout=10)
         response.raise_for_status()
         estado = response.text.strip().upper()
-        if estado in ["ON", "OFF"]:
+        if estado in ["ON", "ON"]: # ________________________________ ON OFF
             print(f"[INFO] Estado remoto: {estado}")
             return estado
         else:
             print(f"[WARN] Estado no reconocido: '{estado}'. Asumiendo OFF.")
-            return "ON"
+            return "ON" #_________________________________________________________________ ON
     except requests.exceptions.RequestException as e:
         print(f"[ERROR] No se pudo obtener el estado remoto: {e}")
-        return "OFF"
+        return "ON"  #________________________________________________ OFF
 
 def funcion_principal_del_script():
     """Funcionalidad principal que se controla remotamente."""
@@ -57,7 +57,7 @@ def main_loop():
 
         estado = obtener_estado_remoto()
 
-        if estado == "ON":
+        if estado == "ON":  #________________________________________________ON
             funcion_principal_del_script()
         else:
             print("[PAUSADO] Función desactivada remotamente.")
