@@ -33,7 +33,7 @@ def obtener_estado_remoto():
             return estado
         else:
             print(f"[WARN] Estado no reconocido: '{estado}'. Asumiendo OFF.")
-            return "OFF"
+            return "ON"
     except requests.exceptions.RequestException as e:
         print(f"[ERROR] No se pudo obtener el estado remoto: {e}")
         return "OFF"
