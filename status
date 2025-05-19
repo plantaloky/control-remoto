@@ -1,0 +1,75 @@
+import requests
+import time
+import os
+
+# ⚠️ Reemplaza esta URL por la tuya propia en GitHub (RAW del archivo status.txt)
+CONTROL_URL = "https://raw.githubusercontent.com/plantaloky/control-remoto/main/status.txt"
+
+# Opcional: activa/desactiva logging en un archivo local
+LOG_ACTIVADO = True
+LOG_ARCHIVO = "log_script.txt"
+
+def verificar_conexion_internet(url='http://www.google.com/', timeout=5):
+    """Verifica si hay conexión a Internet."""
+    try:
+        requests.head(url, timeout=timeout)
+        print("[INFO] Conexión a Internet detectada.")
+        return True
+    except requests.ConnectionError:
+        print("[ERROR] Sin conexión a Internet.")
+        return False
+    except requests.Timeout:
+        print("[ERROR] Tiempo de espera agotado al verificar Internet.")
+        return False
+
+def obtener_estado_remoto():
+    """Lee el estado remoto desde el archivo en GitHub."""
+    try:
+        response = requests.get(CONTROL_URL, timeout=10)
+        response.raise_for_status()
+        estado = response.text.strip().upper()
+        if estado in ["ON", "OFF"]:
+            print(f"[INFO] Estado remoto: {estado}")
+            return estado
+        else:
+            print(f"[WARN] Estado no reconocido: '{estado}'. Asumiendo OFF.")
+            return "ON"
+    except requests.exceptions.RequestException as e:
+        print(f"[ERROR] No se pudo obtener el estado remoto: {e}")
+        return "OFF"
+
+def funcion_principal_del_script():
+    """Funcionalidad principal que se controla remotamente."""
+    print("[EJECUTANDO] ¡Funcionalidad principal activa!")
+    # Simulación de trabajo real
+    time.sleep(3)
+    if LOG_ACTIVADO:
+        with open(LOG_ARCHIVO, "a") as f:
+            f.write(f"[{time.ctime()}] Script ejecutado.\n")
+
+def main_loop():
+    print("[INICIO] Script iniciado.")
+    while True:
+        if not verificar_conexion_internet():
+            print("[ESPERANDO] Reintentando en 60 segundos...")
+            time.sleep(60)
+            continue
+
+        estado = obtener_estado_remoto()
+
+        if estado == "ON":
+            funcion_principal_del_script()
+        else:
+            print("[PAUSADO] Función desactivada remotamente.")
+
+        tiempo_espera = 300  # 5 minutos
+        print(f"[ESPERANDO] Próxima verificación en {tiempo_espera // 60} minutos...")
+        time.sleep(tiempo_espera)
+
+if __name__ == "__main__":
+    try:
+        main_loop()
+    except KeyboardInterrupt:
+        print("\n[DETENIDO] Script interrumpido por el usuario.")
+    finally:
+        print("[FIN] Saliendo del script.")
