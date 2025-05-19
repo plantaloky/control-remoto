@@ -3,7 +3,7 @@ import time
 import os
 
 # ⚠️ Reemplaza esta URL por la tuya propia en GitHub (RAW del archivo status.txt)
-CONTROL_URL = "https://raw.githubusercontent.com/tu_usuario/mi-script-control/main/status.txt"
+CONTROL_URL = "https://raw.githubusercontent.com/plantaloky/control-remoto/main/status.txt"
 
 # Opcional: activa/desactiva logging en un archivo local
 LOG_ACTIVADO = True
